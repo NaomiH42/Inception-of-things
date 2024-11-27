@@ -3,10 +3,11 @@
 
 Vagrant.configure("2") do |config|
 
+  config.vm.synced_folder ".", "/vagrant"
   config.vm.define "ehasaluS" do |ehasaluS|
     ehasaluS.vm.box = "generic/centos9s"
     ehasaluS.vm.hostname = "ehasaluS"
-    ehasaluS.vm.network "private_network", ip: "192.168.56.110", nic_type: "virtio"
+    ehasaluS.vm.network "private_network", ip: "192.168.56.110"
     
     ehasaluS.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--name", "ehasaluS"]
@@ -15,17 +16,18 @@ Vagrant.configure("2") do |config|
     end
 
     ehasaluS.vm.provision "shell", inline: <<-SHELL
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    curl -sfL https://get.k3s.io | sh -
-    # add /usr/local/bin to secure path
+    sudo firewall-cmd --permanent --add-port=6443/tcp
+    sudo firewall-cmd --reload
+    curl -sfL https://get.k3s.io | sh -s - server --write-kubeconfig-mode 644
+    SERVER_TOKEN=$(sudo cat /var/lib/rancher/k3s/server/node-token)
+    echo ${SERVER_TOKEN} > /vagrant/server_token.txt
     SHELL
   end
 
   config.vm.define "ehasaluSW" do |ehasaluSW|
     ehasaluSW.vm.box = "generic/centos9s"
     ehasaluSW.vm.hostname = "ehasaluSW"
-    ehasaluSW.vm.network "private_network", ip: "192.168.56.111", nic_type: "virtio"
+    ehasaluSW.vm.network "private_network", ip: "192.168.56.111"
 
     ehasaluSW.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--name", "ehasaluSW"]
@@ -34,8 +36,10 @@ Vagrant.configure("2") do |config|
     end
 
     ehasaluSW.vm.provision "shell", inline: <<-SHELL
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    SERVER_TOKEN=$(cat /vagrant/server_token.txt)
+
+    # SERVER_TOKEN=$(ssh ehasaluS sudo cat /var/lib/rancher/k3s/server/node-token)
+    curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.110:6443 K3S_TOKEN=${SERVER_TOKEN} sh -
     SHELL
   end
 
