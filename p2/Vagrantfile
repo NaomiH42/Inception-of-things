@@ -15,10 +15,10 @@ Vagrant.configure("2") do |config|
 
     ehasaluS.vm.provision "shell", privileged: true, inline: <<-SHELL
     curl -sfL https://get.k3s.io | sh -s - server --write-kubeconfig-mode 644 --flannel-iface eth1
-    chmod +x /vagrant/set_up_pods.sh
+    chmod +x /vagrant/scripts/set_up_pods.sh
     /usr/bin/alias k=kubectl
     /usr/bin/sudo /usr/bin/systemctl stop firewalld
-    /vagrant/set_up_pods.sh
+    /vagrant/scripts/set_up_pods.sh
       SHELL
   end
   

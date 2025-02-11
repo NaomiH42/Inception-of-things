@@ -24,4 +24,4 @@ argocd account update-password \
   --server ${ARGOCD_SERVER}
 
 kubectl create namespace dev
-kubectl apply -f argocd-app.yaml
+kubectl apply -f ../confs/argocd-app.yaml
