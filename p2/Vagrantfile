@@ -5,8 +5,8 @@ Vagrant.configure("2") do |config|
     ehasaluS.vm.box = "generic/centos9s"
     ehasaluS.vm.hostname = "ehasaluS"
     ehasaluS.vm.network "private_network", ip: "192.168.56.110"
-    ehasaluS.vm.network "forwarded_port", guest: 6443, host: 6443
-    ehasaluS.vm.network "forwarded_port", guest: 80, host: 80
+    ehasaluS.vm.network "forwarded_port", guest: 6443, host: 64433
+    ehasaluS.vm.network "forwarded_port", guest: 80, host: 8088
     ehasaluS.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--name", "ehasaluS"]
       vb.memory = "2048"   

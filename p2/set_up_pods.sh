@@ -1,6 +1,6 @@
 #! /bin/bash
 
-alias k=kubectl
+echo alias k=kubectl >> /home/vagrant/.bashrc
 sudo systemctl stop firewalld
 # sudo firewall-cmd --permanent --add-port=80/tcp
 # sudo firewall-cmd --permanent --add-port=6443/tcp
