@@ -40,5 +40,5 @@ rm argocd-linux-amd64
 #install k3d
 wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
-sudo usermod -aG docker ehasalu
+sudo usermod -aG docker $(whoami)
 sudo reboot
