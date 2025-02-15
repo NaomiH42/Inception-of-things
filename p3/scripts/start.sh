@@ -3,7 +3,7 @@ ARGOCD_SERVER="localhost:8080"
 
 
 k3d cluster delete iot
-k3d cluster create iot --port 8080:443@loadbalancer --port 8888:8888@loadbalancer 
+k3d cluster create iot --port 8080:443@loadbalancer --port 8888:8888@loadbalancer  --port 2222:22@loadbalancer --port 8889:8889@loadbalancer
 
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml 
@@ -25,3 +25,4 @@ argocd account update-password \
 
 kubectl create namespace dev
 kubectl apply -f ../confs/argocd-app.yaml
+
