@@ -72,3 +72,91 @@ Verify interface is configured with correct IP:
 3. Destroy the VMs (removes all data):
 
 `vagrant destroy -f`
+
+
+
+# 🚀 Part 2: Host based Routing
+
+Part 2 provisions a **single-node Kubernetes cluster (K3s)** on a **Vagrant-managed VirtualBox VM**. It deploys multiple applications, services, and Ingress rules using **Traefik** as the ingress controller.
+
+## 📌 Overview
+
+- **Provisioning**:
+  - A **K3s master node** (`ehasaluS`) running on CentOS 9 Stream.
+  - Firewall configuration and aliases for ease of use.
+  - Automated deployment script (`set_up_pods.sh`) to apply Kubernetes resources.
+
+## 🚀 How to Set Up
+
+1. Start the Virtual Machine:
+
+`vagrant up`
+
+This sets up the K3s master node (ehasaluS).
+
+Configures firewall rules.
+
+Applies Kubernetes manifests via set_up_pods.sh.
+
+
+
+2. Verify Kubernetes Cluster:
+
+SSH into the VM:
+
+`vagrant ssh ehasaluS`
+
+Check the Kubernetes node:
+
+`kubectl get nodes`
+
+Expected output:
+```
+NAME         STATUS   ROLES                  AGE   VERSION
+ehasaluS     Ready    control-plane,master   2m    v1.25.x
+```
+
+
+3. Verify Deployments:
+
+`kubectl get deployments`
+
+Expected output:
+```
+NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+app-one     1/1     1            1           1m
+app-two     3/3     3            3           1m
+app-three   1/1     1            1           1m
+```
+
+4. Check Services:
+
+`kubectl get services`
+
+Expected output:
+```
+NAME        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+app-one     ClusterIP   10.43.45.12      <none>        80/TCP    1m
+app-two     ClusterIP   10.43.78.34      <none>        80/TCP    1m
+app-three   ClusterIP   10.43.23.56      <none>        80/TCP    1m
+```
+
+5. Test Ingress Routes:
+
+Add the following entries to /etc/hosts:
+```
+192.168.56.110  app1.com
+192.168.56.110  app2.com
+192.168.56.110  app3.com
+```
+Open a browser and navigate to:
+
+http://app1.com → Should display "Hello from app1."
+
+http://app2.com → Should display "Hello from app2."
+
+192.168.56.110 → Should display "Hello from app3." As default non-host route.
+
+6. Destroy the VM:
+
+`vagrant destroy -f`
