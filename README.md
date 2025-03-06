@@ -1,4 +1,4 @@
-# Project Overview
+# Inception-of-Things
 
 This project leverages lightweight Kubernetes and automation tools to simplify development, testing, and deployment. Below are brief explanations of the core technologies used.
 
@@ -44,7 +44,7 @@ The worker node (ehasaluSW) will then join the cluster.
 
 
 
-1. Access the Kubernetes Cluster:
+2. Access the Kubernetes Cluster:
 
 SSH into the server node:
 
@@ -68,6 +68,7 @@ Verify interface is configured with correct IP:
 
 `ifconfig eth1`
 
-Destroy the VMs (removes all data):
+
+3. Destroy the VMs (removes all data):
 
 `vagrant destroy -f`
