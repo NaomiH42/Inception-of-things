@@ -17,3 +17,57 @@ This project leverages lightweight Kubernetes and automation tools to simplify d
 - **Continuous Integration (CI)** is a DevOps practice where code changes are automatically tested and integrated into the main branch using tools like GitHub Actions, Jenkins, or GitLab CI/CD. This helps detect issues early and speeds up development.
 - **Argo CD** is a declarative, GitOps continuous delivery tool for Kubernetes. It monitors Git repositories for configuration changes and automatically synchronizes them with the Kubernetes cluster, ensuring that deployments stay consistent with the desired state.
 
+
+# 🚀 Part 1: K3s Cluster Setup with Vagrant
+
+Part 1 sets up a **lightweight Kubernetes cluster (K3s) using Vagrant** and **VirtualBox**. It provisions one **K3s server node** and one **K3s worker node** on **CentOS 9 Stream** virtual machines.
+
+## 📌 What This Vagrantfile Does
+
+- Creates **two virtual machines**:
+  - **`ehasaluS`** (Master/Server) - IP: `192.168.56.110`
+  - **`ehasaluSW`** (Worker) - IP: `192.168.56.111`
+- Installs **K3s** on the server (`ehasaluS`) and sets up the cluster.
+- Configures a **firewall rule** to allow Kubernetes API (`6443/tcp`).
+- Saves the **K3s server token** to `/vagrant/server_token.txt` for the worker node to join.
+- Installs **K3s on the worker (`ehasaluSW`)** and joins it to the cluster.
+
+## 🚀 How to Set Up
+
+1. Start the VMs:
+
+`vagrant up`
+
+This will provision the server node (ehasaluS) first.
+
+The worker node (ehasaluSW) will then join the cluster.
+
+
+
+1. Access the Kubernetes Cluster:
+
+SSH into the server node:
+
+`vagrant ssh ehasaluS`
+
+Verify K3s is running:
+
+`kubectl get nodes`
+
+You should see output similar to:
+```
+NAME         STATUS   ROLES                  AGE   VERSION
+ehasaluS     Ready    control-plane,master   2m    v1.25.x
+ehasaluSW    Ready    <none>                 1m    v1.25.x
+```
+SSH into worker node:
+
+`vagrant ssh ehasaluSW`
+
+Verify interface is configured with correct IP:
+
+`ifconfig eth1`
+
+Destroy the VMs (removes all data):
+
+`vagrant destroy -f`
