@@ -160,3 +160,30 @@ http://app2.com → Should display "Hello from app2."
 6. Destroy the VM:
 
 `vagrant destroy -f`
+
+# 🚀 Argo CD Deployment with K3d
+
+This section of the project sets up **Argo CD** on a **K3d-managed Kubernetes cluster** and deploys applications using **GitOps** principles. 
+
+## 📌 Overview
+
+- **Creates a K3d cluster** named `iot` with exposed ports.
+- **Installs Argo CD** in a dedicated Kubernetes namespace (`argocd`).
+- **Configures Argo CD for external access** via a LoadBalancer service.
+- **Deploys an application (`argocd-app`)** managed by Argo CD.
+- **Automatically syncs Kubernetes manifests** from a Git repository.
+
+## 🚀 Setup Instructions
+
+### start.sh
+
+1. Creates a **K3d cluster** named `iot` with necessary ports:
+2. Installs ArgoCD
+3. Exposes ArgoCD server and waits for it to be ready
+4. Changes initial password to allow us to login through GUI
+5. Deploys Application via ArgoCD
+
+ArgoCD is available on port 8080 (I hope)
+To test, change version of deployed application on public GitHub repository and wait for changes to apply on ArgoCD
+Access application on port 8888
+
