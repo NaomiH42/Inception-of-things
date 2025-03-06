@@ -161,7 +161,7 @@ http://app2.com → Should display "Hello from app2."
 
 `vagrant destroy -f`
 
-# 🚀 Argo CD Deployment with K3d
+# 🚀 Part3: Argo CD Deployment with K3d
 
 This section of the project sets up **Argo CD** on a **K3d-managed Kubernetes cluster** and deploys applications using **GitOps** principles. 
 
@@ -188,3 +188,25 @@ ArgoCD is available on port 8080 (I hope).
 To test, change version of deployed application on public GitHub repository and wait for changes to apply on ArgoCD
 Access application on port 8888
 
+# 🚀 Bonus: Local GitLab CI/CD with Argo CD
+
+This setup integrates **Argo CD** with a **self-hosted GitLab instance** to enable **GitOps-based application deployment**. It includes:
+- **Local GitLab setup**
+- **Argo CD configuration for GitLab integration**
+- **CoreDNS adjustments for local domain resolution**
+- **A test application deployment (`argocd-app-bonus.yaml`)**
+
+---
+
+## 📌 Overview
+
+- **GitLab is self-hosted** inside the Kubernetes cluster.
+- **Argo CD fetches manifests from the local GitLab instance**.
+- **CoreDNS is configured to resolve `.local` domain names** for internal services.
+- **A test app (`argocd-app-bonus`) is deployed using Argo CD**.
+
+---
+
+## 🚀 Setup Instructions
+
+Run bonus.sh, which does stuff
