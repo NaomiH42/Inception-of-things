@@ -183,7 +183,8 @@ This section of the project sets up **Argo CD** on a **K3d-managed Kubernetes cl
 4. Changes initial password to allow us to login through GUI
 5. Deploys Application via ArgoCD
 
-ArgoCD is available on port 8080 (I hope)
+ArgoCD is available on port 8080 (I hope).
+
 To test, change version of deployed application on public GitHub repository and wait for changes to apply on ArgoCD
 Access application on port 8888
 
